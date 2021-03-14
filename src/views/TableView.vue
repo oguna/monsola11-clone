@@ -105,7 +105,7 @@ export default {
     };
   },
   mounted: function () {
-    fetch("/data/monsola11/"+this.amedas)
+    fetch("/monsola11-clone/data/monsola11/"+this.amedas)
       .then((res) => res.text())
       .then((text) => (this.info = parseDataFile(text)));
   },

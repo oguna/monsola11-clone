@@ -124,20 +124,21 @@ export default defineComponent({
     };
   },
   mounted: function () {
+    const base = "/monsola11-clone"
     // 全国地図の座標データを読み込む
-    fetch("/data/code_map1.txt")
+    fetch(base+"/data/code_map1.txt")
       .then((res) => res.text())
       .then((text) => parseNationwideFile(text));
     // エリアのデータを読み込む
-    fetch("/data/code_map3.txt")
+    fetch(base+"/data/code_map3.txt")
       .then((res) => res.text())
       .then((text) => (this.areaList = parseAreaFile(text)));
     // 地点のデータを読み込む
-    fetch("/data/point_amedas.txt")
+    fetch(base+"/data/point_amedas.txt")
       .then((res) => res.text())
       .then((text) => (this.amedasList = parseAmedasFile(text)));
     // ある地点のデータを読み込む
-    fetch("/data/monsola11/m11001")
+    fetch(base+"/data/monsola11/m11001")
       .then((res) => res.text())
       .then((text) => (this.info = parseDataFile(text)));
   },
@@ -496,7 +497,8 @@ export default defineComponent({
       this.selectedAmedas = this.filteredPoints[0].id
     },
     selectedAmedas: function(oldValue, newValue) {
-    fetch("/data/monsola11/m"+newValue)
+      const base = "/monsola11-clone"
+    fetch(base+"/data/monsola11/m"+newValue)
       .then((res) => res.text())
       .then((text) => (this.info = parseDataFile(text)));
     }
