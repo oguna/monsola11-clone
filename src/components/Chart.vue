@@ -29,11 +29,11 @@ export default defineComponent({
   methods: {
   },
   watch: {
-    data: function(oldValue, newValue) {
+    data: function(newValue, oldValue) {
       this.chart.data = newValue
       this.chart.update()
     },
-    options: function(oldValue, newValue) {
+    options: function(newValue, oldValue) {
       this.chart.options = newValue
       this.chart.update()
     }

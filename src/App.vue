@@ -1,7 +1,7 @@
 <template>
 <nav class="navbar navbar-dark bg-dark">
   <div class="container">
-    <a class="navbar-brand" href="#">MONOSOLA-11 Clone</a>
+    <a class="navbar-brand" href="#">MONSOLA-11 Clone</a>
   </div>
 </nav>
 <main class="container">

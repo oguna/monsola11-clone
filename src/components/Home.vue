@@ -56,7 +56,7 @@
         <div class="card-body">
           <input type="radio" id="tilt" value="Tilt" v-model="angleMode" :disabled="picked!='Angle'" />
           <label for="tilt">傾斜角指定</label>
-          <select v-model="valueTilt" :disabled="picked!='Angle'">
+          <select v-model="valueTilt" :disabled="picked!='Angle'||angleMode!='Tilt'">
             <option
               v-for="i in [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]"
               :key="i"
@@ -74,7 +74,7 @@
             :disabled="picked!='Angle'"
           />
           <label for="azimuth">方位角指定</label>
-          <select v-model="valueAzimuth" :disabled="picked!='Angle'">
+          <select v-model="valueAzimuth" :disabled="picked!='Angle'||angleMode!='Azimuth'">
             <option
               v-for="i in [
                 0,
@@ -107,7 +107,7 @@
           />
           <label for="tiltAzimuth">任意の指定</label>
           <br />
-          傾斜角<select v-model="valueTilt" :disabled="picked!='Angle'">
+          傾斜角<select v-model="valueTilt" :disabled="picked!='Angle'||angleMode!='TiltAzimuth'">
             <option
               v-for="i in [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]"
               :key="i"
@@ -116,7 +116,7 @@
             </option></select
           >度
           <br />
-          方位角<select v-model="valueAzimuth" :disabled="picked!='Angle'">
+          方位角<select v-model="valueAzimuth" :disabled="picked!='Angle'||angleMode!='TiltAzimuth'">
             <option
               v-for="i in [
                 0,
@@ -602,12 +602,12 @@ export default defineComponent({
     },
   },
   watch: {
-    selectedArea: function (oldValue, newValue) {
+    selectedArea(newVal, oldVal) {
       this.selectedAmedas = this.filteredPoints[0].id;
     },
-    selectedAmedas: function (oldValue, newValue) {
+    selectedAmedas(newVal, oldVal) {
       const base = "/monsola11-clone";
-      fetch(base + "/data/monsola11/m" + newValue)
+      fetch(base + "/data/monsola11/m" + newVal)
         .then((res) => res.text())
         .then((text) => (this.info = parseDataFile(text)));
     },
