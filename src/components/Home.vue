@@ -1,94 +1,179 @@
 <template>
-  <h2>地点指定</h2>
-  エリア名
-  <select v-model="selectedArea">
-    <option v-for="i in areaList" :key="i.id" :value="i.id">{{ i.name }}</option>
-  </select>
-  <br />
-  地点名
-  <select v-model="selectedAmedas">
-    <option v-for="i in filteredPoints" :key="i.id" :value="i.id">{{ i.name }}</option>
-  </select>
-
-  <h2>表示データ指定</h2>
-  <input type="radio" id="month" value="Month" v-model="picked" />
-  <label for="month">月指定</label>
-  <select v-model="optionMonth">
-    <option v-for="i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]" :key="i">
-      {{ i }}
-    </option>
-  </select>
-  <br />
-  <input type="radio" id="angle" value="Angle" v-model="picked" />
-  <label for="angle">角度指定</label>
-  <br />
-  <input type="radio" id="year" value="Year" v-model="picked" />
-  <label for="year">年変動</label>
-  <br />
-
-  <h2>角度指定</h2>
-
-  <input type="radio" id="tilt" value="Tilt" v-model="angleMode" />
-  <label for="tilt">傾斜角指定</label>
-  <select v-model="valueTilt">
-    <option v-for="i in [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]" :key="i">
-      {{ i }}
-    </option>
-  </select>
-  度
-  <br />
-  <input type="radio" id="azimuth" value="Azimuth" v-model="angleMode" />
-  <label for="azimuth">方位角指定</label>
-  <select v-model="valueAzimuth">
-    <option
-      v-for="i in [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180]"
-      :key="i"
-    >
-      {{ i }}
-    </option>
-  </select>
-  度
-  <br />
-  <input
-    type="radio"
-    id="tiltAzimuth"
-    value="TiltAzimuth"
-    v-model="angleMode"
-  />
-  <label for="tiltAzimuth">任意の指定</label>
-  <br />
-  傾斜角<select v-model="valueTilt">
-    <option v-for="i in [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]" :key="i">
-      {{ i }}
-    </option>
-  </select>度
-  <br />
-  方位角<select v-model="valueAzimuth">
-    <option
-      v-for="i in [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180]"
-      :key="i"
-    >
-      {{ i }}
-    </option>
-  </select>
-  度
-  <br />
-  <input type="radio" id="bestAngle" value="BestAngle" v-model="angleMode" />
-  <label for="bestAngle">最適傾斜角</label>
-  <br />
-  <input
-    type="radio"
-    id="everyMonthBest"
-    value="EveryMonthBest"
-    v-model="angleMode"
-  />
-  <label for="everyMonthBest">各月の最適傾斜角における日射量</label>
-  <br />
-  <input type="radio" id="yearBest" value="YearBest" v-model="angleMode" />
-  <label for="yearBest">年間最適傾斜角における日射量</label>
-  <br />
+  <div class="row row-cols-1 row-cols-md-3 mb-3">
+    <div class="col">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+          <h4>地点指定</h4>
+        </div>
+        <div class="card-body">
+          エリア名
+          <select v-model="selectedArea">
+            <option v-for="i in areaList" :key="i.id" :value="i.id">
+              {{ i.name }}
+            </option>
+          </select>
+          <br />
+          地点名
+          <select v-model="selectedAmedas">
+            <option v-for="i in filteredPoints" :key="i.id" :value="i.id">
+              {{ i.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      </div>
+    <div class="col">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+          <h4>表示データ指定</h4>
+        </div>
+        <div class="card-body">
+          <input type="radio" id="month" value="Month" v-model="picked" />
+          <label for="month">月指定</label>
+          <select v-model="optionMonth" :disabled="picked!='Month'">
+            <option
+              v-for="i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]"
+              :value="i"
+              :key="i"
+            >
+              {{ i }}月
+            </option>
+          </select>
+          <br />
+          <input type="radio" id="angle" value="Angle" v-model="picked" />
+          <label for="angle">角度指定</label>
+          <br />
+          <input type="radio" id="year" value="Year" v-model="picked" />
+          <label for="year">年変動</label>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+          <h4>角度指定</h4>
+        </div>
+        <div class="card-body">
+          <input type="radio" id="tilt" value="Tilt" v-model="angleMode" :disabled="picked!='Angle'" />
+          <label for="tilt">傾斜角指定</label>
+          <select v-model="valueTilt" :disabled="picked!='Angle'">
+            <option
+              v-for="i in [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]"
+              :key="i"
+            >
+              {{ i }}
+            </option>
+          </select>
+          度
+          <br />
+          <input
+            type="radio"
+            id="azimuth"
+            value="Azimuth"
+            v-model="angleMode"
+            :disabled="picked!='Angle'"
+          />
+          <label for="azimuth">方位角指定</label>
+          <select v-model="valueAzimuth" :disabled="picked!='Angle'">
+            <option
+              v-for="i in [
+                0,
+                15,
+                30,
+                45,
+                60,
+                75,
+                90,
+                105,
+                120,
+                135,
+                150,
+                165,
+                180,
+              ]"
+              :key="i"
+            >
+              {{ i }}
+            </option>
+          </select>
+          度
+          <br />
+          <input
+            type="radio"
+            id="tiltAzimuth"
+            value="TiltAzimuth"
+            v-model="angleMode"
+            :disabled="picked!='Angle'"
+          />
+          <label for="tiltAzimuth">任意の指定</label>
+          <br />
+          傾斜角<select v-model="valueTilt" :disabled="picked!='Angle'">
+            <option
+              v-for="i in [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]"
+              :key="i"
+            >
+              {{ i }}
+            </option></select
+          >度
+          <br />
+          方位角<select v-model="valueAzimuth" :disabled="picked!='Angle'">
+            <option
+              v-for="i in [
+                0,
+                15,
+                30,
+                45,
+                60,
+                75,
+                90,
+                105,
+                120,
+                135,
+                150,
+                165,
+                180,
+              ]"
+              :key="i"
+            >
+              {{ i }}
+            </option>
+          </select>
+          度
+          <br />
+          <input
+            type="radio"
+            id="bestAngle"
+            value="BestAngle"
+            v-model="angleMode"
+            :disabled="picked!='Angle'"
+          />
+          <label for="bestAngle">最適傾斜角</label>
+          <br />
+          <input
+            type="radio"
+            id="everyMonthBest"
+            value="EveryMonthBest"
+            v-model="angleMode"
+            :disabled="picked!='Angle'"
+          />
+          <label for="everyMonthBest">各月の最適傾斜角における日射量</label>
+          <br />
+          <input
+            type="radio"
+            id="yearBest"
+            value="YearBest"
+            v-model="angleMode"
+            :disabled="picked!='Angle'"
+          />
+          <label for="yearBest">年間最適傾斜角における日射量</label>
+        </div>
+      </div>
+    </div>
+  </div>
   <Chart v-if="info != null" :data="chartData" :options="chartOptions"></Chart>
-  <router-link :to="'/table/m'+selectedAmedas">データ一覧表を表示</router-link>
+  <router-link :to="'/table/m' + selectedAmedas"
+    >データ一覧表を表示</router-link
+  >
 </template>
 
 <script lang="ts">
@@ -124,30 +209,30 @@ export default defineComponent({
     };
   },
   mounted: function () {
-    const base = "/monsola11-clone"
+    const base = "/monsola11-clone";
     // 全国地図の座標データを読み込む
-    fetch(base+"/data/code_map1.txt")
+    fetch(base + "/data/code_map1.txt")
       .then((res) => res.text())
       .then((text) => parseNationwideFile(text));
     // エリアのデータを読み込む
-    fetch(base+"/data/code_map3.txt")
+    fetch(base + "/data/code_map3.txt")
       .then((res) => res.text())
       .then((text) => (this.areaList = parseAreaFile(text)));
     // 地点のデータを読み込む
-    fetch(base+"/data/point_amedas.txt")
+    fetch(base + "/data/point_amedas.txt")
       .then((res) => res.text())
       .then((text) => (this.amedasList = parseAmedasFile(text)));
     // ある地点のデータを読み込む
-    fetch(base+"/data/monsola11/m11001")
+    fetch(base + "/data/monsola11/m11001")
       .then((res) => res.text())
       .then((text) => (this.info = parseDataFile(text)));
   },
   computed: {
-    filteredPoints: function(): Amedas[] {
+    filteredPoints: function (): Amedas[] {
       if (this.amedasList == null) {
-        return []
-      } 
-      return this.amedasList!.filter(v=>v.area===this.selectedArea)
+        return [];
+      }
+      return this.amedasList!.filter((v) => v.area === this.selectedArea);
     },
     chartData: function (): any {
       const degreeLabels = "0° 10° 20° 30° 40° 50° 60° 70° 80° 90°".split(" ");
@@ -349,18 +434,30 @@ export default defineComponent({
             datasets: datasets,
           };
         } else if (this.angleMode === "Azimuth") {
-          const index = [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180].indexOf(
-            Number.parseInt(this.valueAzimuth)
-          );
+          const index = [
+            0,
+            15,
+            30,
+            45,
+            60,
+            75,
+            90,
+            105,
+            120,
+            135,
+            150,
+            165,
+            180,
+          ].indexOf(Number.parseInt(this.valueAzimuth));
           const datasets = [];
           for (let i = 0; i < 9; i++) {
             datasets.push({
-              label: degreeLabels[i+1],
+              label: degreeLabels[i + 1],
               backgroundColor: markers[i].backgroundColor,
               borderColor: markers[i].borderColor,
               fill: false,
               lineTension: 0,
-              data: this.info!.data[i + 3 + index*9],
+              data: this.info!.data[i + 3 + index * 9],
             });
           }
           return {
@@ -371,23 +468,35 @@ export default defineComponent({
           const tiltIndex = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90].indexOf(
             Number.parseInt(this.valueTilt)
           );
-          const azimuthIndex = [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180].indexOf(
-            Number.parseInt(this.valueAzimuth)
-          );
-          let index: number
-         if (tiltIndex === 0) {
-           index = 0
+          const azimuthIndex = [
+            0,
+            15,
+            30,
+            45,
+            60,
+            75,
+            90,
+            105,
+            120,
+            135,
+            150,
+            165,
+            180,
+          ].indexOf(Number.parseInt(this.valueAzimuth));
+          let index: number;
+          if (tiltIndex === 0) {
+            index = 0;
           } else {
-            index = tiltIndex + 2 + azimuthIndex*9
+            index = tiltIndex + 2 + azimuthIndex * 9;
           }
           const datasets = [];
-            datasets.push({
-              label: `傾斜角${this.valueTilt}度 方位角${this.valueAzimuth}度`,
-              borderColor: markers[0].borderColor,
-              fill: false,
-              lineTension: 0,
-              data: this.info!.data[index],
-            });
+          datasets.push({
+            label: `傾斜角${this.valueTilt}度 方位角${this.valueAzimuth}度`,
+            borderColor: markers[0].borderColor,
+            fill: false,
+            lineTension: 0,
+            data: this.info!.data[index],
+          });
           return {
             labels: monthLabels,
             datasets: datasets,
@@ -461,7 +570,7 @@ export default defineComponent({
         },
         title: {
           display: true,
-          text: title + ' @' + this.info!.name,
+          text: title + " @" + this.info!.name,
         },
         hover: {
           mode: "nearest",
@@ -493,15 +602,15 @@ export default defineComponent({
     },
   },
   watch: {
-    selectedArea: function(oldValue, newValue) {
-      this.selectedAmedas = this.filteredPoints[0].id
+    selectedArea: function (oldValue, newValue) {
+      this.selectedAmedas = this.filteredPoints[0].id;
     },
-    selectedAmedas: function(oldValue, newValue) {
-      const base = "/monsola11-clone"
-    fetch(base+"/data/monsola11/m"+newValue)
-      .then((res) => res.text())
-      .then((text) => (this.info = parseDataFile(text)));
-    }
-  }
+    selectedAmedas: function (oldValue, newValue) {
+      const base = "/monsola11-clone";
+      fetch(base + "/data/monsola11/m" + newValue)
+        .then((res) => res.text())
+        .then((text) => (this.info = parseDataFile(text)));
+    },
+  },
 });
 </script>

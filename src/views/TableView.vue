@@ -1,7 +1,7 @@
 <template>
   <h1>月平均斜面日射量 (kWh/㎡・day)</h1>
   {{ caption }}
-  <table v-if="info">
+  <table class="table" v-if="info">
     <tr>
       <th>方位角</th>
       <th>傾斜角</th>
@@ -128,6 +128,7 @@ table {
 table th,
 table td {
   border: solid 1px gray;
-  padding: 0 0.1em 0 0.1em;
+  padding: 0 0.5em 0 0.5em;
+  text-align: right;
 }
 </style>

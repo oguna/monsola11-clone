@@ -15,27 +15,27 @@ export default defineComponent({
   data() {
     return {
       ctx: null as CanvasRenderingContext2D|null,
+      chart: null as Chart|null,
     }
   },
   mounted: function() {
     this.ctx = (document.getElementById('myChart') as HTMLCanvasElement).getContext('2d')
-    this.createChart()
+    this.chart = new Chart(this.ctx, {
+      type: 'line',
+      data: this.data,
+      options: this.options,
+    })
   },
   methods: {
-    createChart: function() {
-      var myChart = new Chart(this.ctx, {
-        type: 'line',
-        data: this.data,
-        options: this.options,
-      })
-    }
   },
   watch: {
     data: function(oldValue, newValue) {
-      this.createChart()
+      this.chart.data = newValue
+      this.chart.update()
     },
     options: function(oldValue, newValue) {
-      this.createChart()
+      this.chart.options = newValue
+      this.chart.update()
     }
   }
 })
