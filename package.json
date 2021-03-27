@@ -8,10 +8,12 @@
   "dependencies": {
     "@vitejs/plugin-vue": "^1.1.5",
     "chart.js": "^2.9.4",
+    "d3": "^6.6.1",
     "vue": "^3.0.4",
     "vue-router": "^4.0.5"
   },
   "devDependencies": {
+    "@types/d3": "^6.3.0",
     "@vue/compiler-sfc": "^3.0.4",
     "vite": "^2.1.3"
   }

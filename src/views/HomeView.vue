@@ -1,5 +1,5 @@
 <template>
-  <Home></Home>
+  <Home :id="numberedId"></Home>
 </template>
 
 <script lang="ts">
@@ -10,5 +10,17 @@ export default {
   components: {
     Home,
   },
+  props: {
+    id: String,
+  },
+  computed: {
+    numberedId: function(): number|undefined {
+      if (this.id) {
+        return Number.parseInt(this.id)
+      } else {
+        return undefined
+      }
+    }
+  }
 };
 </script>

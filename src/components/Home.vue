@@ -19,6 +19,10 @@
               {{ i.name }}
             </option>
           </select>
+          <br>
+          <router-link :to="{name:'map'}">
+            <button>地図から選択</button>
+          </router-link>
         </div>
       </div>
       </div>
@@ -189,7 +193,9 @@ import { DataFile, Amedas, NationWide, Area } from "../types";
 
 export default defineComponent({
   name: "Home",
-  props: {},
+  props: {
+    id: Number
+  },
   components: {
     Chart,
   },

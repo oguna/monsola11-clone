@@ -42,9 +42,9 @@ export function parseAmedasFile(text: string): Amedas[] {
             id: Number.parseInt(columns[0]),
             name: columns[1],
             area: Number.parseInt(columns[2]),
-            lat: Number.parseInt(columns[3]),
-            long: Number.parseInt(columns[4]),
-            alti: Number.parseInt(columns[5]),
+            lat: Number.parseFloat(columns[3]),
+            long: Number.parseFloat(columns[4]),
+            alti: Number.parseFloat(columns[5]),
         });
     }
     return list

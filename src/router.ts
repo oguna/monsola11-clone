@@ -1,15 +1,30 @@
 import {createRouter, createWebHashHistory} from 'vue-router';
 import HomeView from './views/HomeView.vue'
-import ContentView from './views/TableView.vue'
+import TableView from './views/TableView.vue'
+import MapView from './views/MapView.vue'
 
 const routes = [
     {
         path: '/',
+        name: 'home',
         component: HomeView,
+        props: true
+    },
+    {
+        path: '/chart',
+        name: 'chart',
+        component: HomeView,
+        props: true
+    },
+    {
+        path: '/map',
+        name: 'map',
+        component: MapView,
     },
     {
         path: '/table/:amedas',
-        component: ContentView,
+        name: 'table',
+        component: TableView,
         props: true,
     },
 ]
