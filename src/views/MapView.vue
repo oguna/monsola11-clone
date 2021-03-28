@@ -7,7 +7,7 @@
     <tr><th>経度</th><td>{{getSelectedAmedas.long}} °</td></tr>
     <tr><th>標高</th><td>{{getSelectedAmedas.alti}} m</td></tr>
   </table>
-  <router-link :to="{name:'home', query:{id:getSelectedAmedas.id}}">
+  <router-link :to="{name:'home'}">
   <button>この地点のグラフを<br>表示</button>
   </router-link>
   <br>
@@ -43,26 +43,28 @@ export default defineComponent({
       areaList: null as Area[] | null,
       nationwidePos: null as NationWide | null,
       amedasList: [] as Amedas[] | null,
-      selectedAmedas: null as Number|null,
     };
   },
   computed: {
+    amedas: {
+      get(): number {
+        return this.$store.state.amedas
+      },
+      set(value: number) {
+        this.$store.commit('setAmedas', value)
+      }
+    },
     getSelectedAmedas(): Amedas|null {
       if (this.amedasList == null) {
         return null
       }
-      if (this.selectedAmedas == null) {
+      if (this.amedas == null) {
         return null
       }
-      return this.amedasList.find((e) => e.id == this.selectedAmedas)!
+      return this.amedasList.find((e) => e.id == this.amedas)!
     },
   },
   methods: {
-    setAmedas(id: number) {
-      this.selectedAmedas = id
-    },
-    loadData() {
-    },
     createMap: function (json: any) {
       const width = 600;
       const height = 600;
@@ -99,7 +101,7 @@ export default defineComponent({
           .attr("r", 2)
           .attr("amedas", e.id)
           .on('mousedown.log', (d: any) => {
-            this.setAmedas(d.target.attributes.amedas.value)
+            this.amedas = d.target.attributes.amedas.value
           })
       }
 

@@ -8,13 +8,6 @@ const routes = [
         path: '/',
         name: 'home',
         component: HomeView,
-        props: true
-    },
-    {
-        path: '/chart',
-        name: 'chart',
-        component: HomeView,
-        props: true
     },
     {
         path: '/map',

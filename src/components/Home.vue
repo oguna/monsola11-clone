@@ -193,9 +193,6 @@ import { DataFile, Amedas, NationWide, Area } from "../types";
 
 export default defineComponent({
   name: "Home",
-  props: {
-    id: Number
-  },
   components: {
     Chart,
   },
@@ -203,8 +200,6 @@ export default defineComponent({
     return {
       picked: "Angle",
       angleMode: "Tilt",
-      selectedArea: 11,
-      selectedAmedas: 11001,
       areaList: null as Area[] | null,
       nationwidePos: null as NationWide | null,
       amedasList: null as Amedas[] | null,
@@ -234,6 +229,26 @@ export default defineComponent({
       .then((text) => (this.info = parseDataFile(text)));
   },
   computed: {
+    selectedArea: {
+      get: function() {
+        return Math.floor(this.$store.state.amedas / 1000)
+      },
+      set: function(v: number) {
+        let amedas = this.amedasList?.filter(e=>e.id>v*1000)[0].id
+        if (amedas === undefined) {
+          amedas = 11001
+        }
+        this.$store.commit('setAmedas', amedas)
+      }
+    },
+    selectedAmedas: {
+      get: function() {
+        return this.$store.state.amedas
+      },
+      set: function(v: number) {
+        this.$store.commit('setAmedas', v)
+      }
+    },
     filteredPoints: function (): Amedas[] {
       if (this.amedasList == null) {
         return [];
@@ -608,9 +623,6 @@ export default defineComponent({
     },
   },
   watch: {
-    selectedArea(newVal, oldVal) {
-      this.selectedAmedas = this.filteredPoints[0].id;
-    },
     selectedAmedas(newVal, oldVal) {
       const base = "/monsola11-clone";
       fetch(base + "/data/monsola11/m" + newVal)

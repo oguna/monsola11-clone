@@ -10,7 +10,8 @@
     "chart.js": "^2.9.4",
     "d3": "^6.6.1",
     "vue": "^3.0.4",
-    "vue-router": "^4.0.5"
+    "vue-router": "^4.0.5",
+    "vuex": "^4.0.0"
   },
   "devDependencies": {
     "@types/d3": "^6.3.0",
