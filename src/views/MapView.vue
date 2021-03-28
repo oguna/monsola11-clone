@@ -82,6 +82,7 @@ export default defineComponent({
         .select("#map")
         .attr("width", width)
         .attr("height", height);
+      svg.selectAll('g').remove()
       const g = svg.append("g");
       g.append("g")
         .selectAll("path")
