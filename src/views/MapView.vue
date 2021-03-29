@@ -43,6 +43,7 @@ export default defineComponent({
       areaList: null as Area[] | null,
       nationwidePos: null as NationWide | null,
       amedasList: [] as Amedas[] | null,
+      g: undefined as any
     };
   },
   computed: {
@@ -63,6 +64,14 @@ export default defineComponent({
       }
       return this.amedasList.find((e) => e.id == this.amedas)!
     },
+  },
+  watch: {
+    amedas: function(v: number) {
+      this.g
+      .selectAll('circle')
+      .data(this.amedasList!)
+      .attr('fill', (d: Amedas)=>d.id==v ? 'red': 'orange')
+    }
   },
   methods: {
     createMap: function (json: any) {
@@ -101,10 +110,12 @@ export default defineComponent({
           .attr("cy", coordinate[1])
           .attr("r", 2)
           .attr("amedas", e.id)
+          .attr('fill', e.id==this.amedas ? 'red': 'orange')
           .on('mousedown.log', (d: any) => {
             this.amedas = d.target.attributes.amedas.value
           })
       }
+      this.g = g2
 
       function zoomed(event: any) {
         const { transform } = event;
@@ -123,7 +134,6 @@ export default defineComponent({
 #map:deep(circle) {
   fill-opacity: 0.5;
   stroke: orange;
-  fill: orange;
 }
 #map:deep(path) {
   fill: green;
