@@ -608,6 +608,8 @@ export default defineComponent({
         throw "unexpected reach";
       }
       return {
+        animation: false
+        ,
         legend: {
           position: "bottom",
         },
