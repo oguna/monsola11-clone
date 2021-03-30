@@ -1,5 +1,5 @@
 <template>
-  <div class="row row-cols-1 row-cols-md-3 mb-3">
+  <div class="row row-cols-1 row-cols-md-4 mb-4">
     <div class="col">
       <div class="card mb-4 shadow-sm">
         <div class="card-header">
@@ -63,6 +63,7 @@
           <select v-model="valueTilt" :disabled="picked!='Angle'||angleMode!='Tilt'">
             <option
               v-for="i in [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]"
+              :value="i"
               :key="i"
             >
               {{ i }}
@@ -173,6 +174,25 @@
         </div>
       </div>
     </div>
+    <div class="col">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+          <h4>パネル</h4>
+        </div>
+        <div class="card-body">
+          <panel-preview :altitude="-this.valueTilt/180*Math.PI" :azimuth="this.valueAzimuth/180*Math.PI"></panel-preview>
+          <label>傾斜角</label> 0°<input type="range" list="tickmarks" step="10" min="0" max="90" v-model="this.valueTilt">90°
+          <datalist id="tickmarks">
+          <option v-for="e in Array.from({length: 10}, (v, k) => k*10)" :key="e" :value="e" label="0%"></option>
+        </datalist>
+          <br>
+          <label>方位角</label> 南<input type="range" list="tickmarksA" step="15" min="0" max="180"  v-model="this.valueAzimuth">北
+          <datalist id="tickmarksA">
+          <option v-for="e in Array.from({length: 12}, (v,k)=>k*15+15)" :key="e" :value="e"></option>
+        </datalist>
+        </div>
+      </div>
+    </div>
   </div>
   <Chart v-if="info != null" :data="chartData" :options="chartOptions"></Chart>
   <router-link :to="'/table/m' + selectedAmedas"
@@ -190,11 +210,13 @@ import {
   parseAreaFile,
 } from "../utils";
 import { DataFile, Amedas, NationWide, Area } from "../types";
+import PanelPreview from "./PanelPreview.vue";
 
 export default defineComponent({
   name: "Home",
   components: {
     Chart,
+    PanelPreview
   },
   data() {
     return {
@@ -205,8 +227,8 @@ export default defineComponent({
       amedasList: null as Amedas[] | null,
       info: null as DataFile | null,
       optionMonth: 1,
-      valueTilt: "0",
-      valueAzimuth: "0",
+      valueTilt: 0,
+      valueAzimuth: 0,
     };
   },
   mounted: function () {
