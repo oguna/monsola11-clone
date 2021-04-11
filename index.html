@@ -9,6 +9,13 @@
 </head>
 <body>
   <div id="app"></div>
+  <script>
+    var ua = window.navigator.userAgent; 
+    if(ua.indexOf('Trident') != -1 || ua.indexOf('MSIE') != -1){ 
+      this.document.getElementById('app').innerText =
+      'お使いのブラウザは閲覧推奨環境ではありません。\nウェブサイトが正しく表示されない、動作しない等の現象が起こる場合がありますので予めご了承ください。\nChromeまたはEdgeブラウザのご利用をおすすめいたします。';
+    }
+  </script>
   <script type="module" src="/src/main.ts"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 </body>
