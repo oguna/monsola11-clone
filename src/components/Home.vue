@@ -444,7 +444,7 @@ export default defineComponent({
           };
         } else if (this.angleMode === "Tilt") {
           const index = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90].indexOf(
-            Number.parseInt(this.valueTilt)
+            this.valueTilt
           );
           if (index === 0) {
             const datasets = [];
@@ -491,7 +491,7 @@ export default defineComponent({
             150,
             165,
             180,
-          ].indexOf(Number.parseInt(this.valueAzimuth));
+          ].indexOf(this.valueAzimuth);
           const datasets = [];
           for (let i = 0; i < 9; i++) {
             datasets.push({
@@ -509,7 +509,7 @@ export default defineComponent({
           };
         } else if (this.angleMode === "TiltAzimuth") {
           const tiltIndex = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90].indexOf(
-            Number.parseInt(this.valueTilt)
+            this.valueTilt
           );
           const azimuthIndex = [
             0,
@@ -525,7 +525,7 @@ export default defineComponent({
             150,
             165,
             180,
-          ].indexOf(Number.parseInt(this.valueAzimuth));
+          ].indexOf(this.valueAzimuth);
           let index: number;
           if (tiltIndex === 0) {
             index = 0;
