@@ -91,7 +91,7 @@
 </template>
 
 <script lang="ts">
-import { parseDataFile } from "../utils";
+import { parseDataBinFile } from "../utils";
 import { DataFile } from "../types";
 
 export default {
@@ -105,9 +105,10 @@ export default {
     };
   },
   mounted: function () {
-    fetch("/monsola11-clone/data/monsola11/"+this.amedas)
-      .then((res) => res.text())
-      .then((text) => (this.info = parseDataFile(text)));
+    fetch("/monsola11-clone/data/monsola11/"+this.amedas+".bin")
+      .then((res) => res.blob())
+      .then((res) => res.arrayBuffer())
+      .then((text) => (this.info = parseDataBinFile(text)));
   },
   computed: {
     caption: function (): string {
