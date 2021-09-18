@@ -3,8 +3,9 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-import * as THREE from "three";
+import * as THREE from "three/build/three.module.js";
 import { SVGRenderer } from "three/examples/jsm/renderers/SVGRenderer.js";
+import { ShadowMesh } from 'three/examples/jsm/objects/ShadowMesh.js';
 
 export default defineComponent({
   name: "PanelPreview",
@@ -18,6 +19,8 @@ export default defineComponent({
       renderer: null,
       camera: null,
       scene: null,
+      shadow: null,
+      groundPlane: null,
     };
   },
   watch: {
@@ -42,6 +45,11 @@ export default defineComponent({
       this.plane.translateY(-0.5);
       this.plane.rotateX(Math.PI*3/2-this.altitude);
       this.plane.translateY(0.5);
+      this.plane.updateMatrixWorld()
+
+      const lightPosition4D = new THREE.Vector4(0, 100, 0, 0.01)
+      this.shadow.update(this.groundPlane, lightPosition4D)
+
       this.renderer.render(this.scene!, this.camera!);
     }
   },
@@ -101,15 +109,29 @@ export default defineComponent({
     plane.rotateX(Math.PI / 3);
     scene.add(plane);
 
+    const shadow = new ShadowMesh(plane)
+    scene.add(shadow)
+
     camera.position.x = 1;
     camera.position.y = 1;
     camera.position.z = 2;
     camera.lookAt(new THREE.Vector3(0, 0, 0));
-    
+
+    // 影を投影する平面
+    const normalVector = new THREE.Vector3( 0, 1, 0 );
+		const planeConstant = 0.01;
+		const groundPlane = new THREE.Plane( normalVector, planeConstant );
+
+    // 太陽の位置
+    const lightPosition4D = new THREE.Vector4(0, 10, 10, 0.01)
+    shadow.update(groundPlane, lightPosition4D)
+   
     this.renderer = renderer
     this.plane = plane
     this.camera = camera
     this.scene = scene
+    this.shadow = shadow
+    this.groundPlane = groundPlane
 
     this.updateScene()
 
