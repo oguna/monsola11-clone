@@ -60,7 +60,7 @@
         <div class="card-body">
           <input type="radio" id="tilt" value="Tilt" v-model="angleMode" :disabled="picked!='Angle'" />
           <label for="tilt">傾斜角指定</label>
-          <select v-model="valueTilt" :disabled="picked!='Angle'||angleMode!='Tilt'">
+          <select v-model.number="valueTilt" :disabled="picked!='Angle'||angleMode!='Tilt'">
             <option
               v-for="i in [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]"
               :value="i"
@@ -79,7 +79,7 @@
             :disabled="picked!='Angle'"
           />
           <label for="azimuth">方位角指定</label>
-          <select v-model="valueAzimuth" :disabled="picked!='Angle'||angleMode!='Azimuth'">
+          <select v-model.number="valueAzimuth" :disabled="picked!='Angle'||angleMode!='Azimuth'">
             <option
               v-for="i in [
                 0,
@@ -112,7 +112,7 @@
           />
           <label for="tiltAzimuth">任意の指定</label>
           <br />
-          傾斜角<select v-model="valueTilt" :disabled="picked!='Angle'||angleMode!='TiltAzimuth'">
+          傾斜角<select v-model.number="valueTilt" :disabled="picked!='Angle'||angleMode!='TiltAzimuth'">
             <option
               v-for="i in [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]"
               :key="i"
@@ -121,7 +121,7 @@
             </option></select
           >度
           <br />
-          方位角<select v-model="valueAzimuth" :disabled="picked!='Angle'||angleMode!='TiltAzimuth'">
+          方位角<select v-model.number="valueAzimuth" :disabled="picked!='Angle'||angleMode!='TiltAzimuth'">
             <option
               v-for="i in [
                 0,
@@ -181,12 +181,12 @@
         </div>
         <div class="card-body">
           <panel-preview :altitude="-this.valueTilt/180*Math.PI" :azimuth="this.valueAzimuth/180*Math.PI"></panel-preview>
-          <label>傾斜角</label> 0°<input type="range" list="tickmarks" step="10" min="0" max="90" v-model="this.valueTilt">90°
+          <label>傾斜角</label> 0°<input type="range" list="tickmarks" step="10" min="0" max="90" v-model.number="this.valueTilt">90°
           <datalist id="tickmarks">
           <option v-for="e in Array.from({length: 10}, (v, k) => k*10)" :key="e" :value="e" label="0%"></option>
         </datalist>
           <br>
-          <label>方位角</label> 南<input type="range" list="tickmarksA" step="15" min="0" max="180"  v-model="this.valueAzimuth">北
+          <label>方位角</label> 南<input type="range" list="tickmarksA" step="15" min="0" max="180"  v-model.number="this.valueAzimuth">北
           <datalist id="tickmarksA">
           <option v-for="e in Array.from({length: 12}, (v,k)=>k*15+15)" :key="e" :value="e"></option>
         </datalist>
