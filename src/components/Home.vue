@@ -208,6 +208,7 @@ import {
   parseDataFile,
   parseNationwideFile,
   parseAreaFile,
+  parseDataBinFile
 } from "../utils";
 import { DataFile, Amedas, NationWide, Area } from "../types";
 import PanelPreview from "./PanelPreview.vue";
@@ -246,9 +247,10 @@ export default defineComponent({
       .then((res) => res.text())
       .then((text) => (this.amedasList = parseAmedasFile(text)));
     // ある地点のデータを読み込む
-    fetch(base + "/data/monsola11/m11001")
-      .then((res) => res.text())
-      .then((text) => (this.info = parseDataFile(text)));
+    fetch(base + "/data/monsola11/m11001.bin")
+      .then((res) => res.blob())
+      .then((res) => res.arrayBuffer())
+      .then((text) => (this.info = parseDataBinFile(text)));
   },
   computed: {
     selectedArea: {
@@ -649,9 +651,10 @@ export default defineComponent({
   watch: {
     selectedAmedas(newVal, oldVal) {
       const base = "/monsola11-clone";
-      fetch(base + "/data/monsola11/m" + newVal)
-        .then((res) => res.text())
-        .then((text) => (this.info = parseDataFile(text)));
+      fetch(base + "/data/monsola11/m" + newVal+'.bin')
+        .then((res) => res.blob())
+        .then((res) => res.arrayBuffer())
+        .then((text) => (this.info = parseDataBinFile(text)));
     },
   },
 });

@@ -30,6 +30,41 @@ export function parseDataFile(text: string): DataFile {
     } as DataFile
 }
 
+export function parseDataBinFile(buffer: ArrayBuffer): DataFile {
+    if (buffer.byteLength!=64+17*128*2) {
+        throw new Error("invalid file size")
+    }
+    const header = buffer.slice(0, 64)
+    const decoder = new TextDecoder()
+    const columns = decoder.decode(header).split(/\s+/)
+    const int16View = new Int16Array(buffer, 64, 17*128)
+    const data: number[][] = []
+    for (let i = 0; i < 128; i++) {
+        data[i] = []
+    }
+    for (let i = 0; i < int16View.length; i++) {
+        let v = int16View[i]
+        const lineIndex = Math.floor(i/17)
+        if (lineIndex == 121 || lineIndex == 126) {
+            v = v/10
+        } else {
+            v = v/100
+        }
+        data[lineIndex].push(v)
+    }
+    return {
+        area: Number.parseInt(columns[0]),
+        id: Number.parseInt(columns[1]),
+        name: columns[2],
+        lat_d: Number.parseInt(columns[3]),
+        lat_m: Number.parseFloat(columns[4]),
+        long_d: Number.parseInt(columns[5]),
+        long_m: Number.parseFloat(columns[6]),
+        alti: Number.parseInt(columns[7]),
+        data: data,
+    } as DataFile
+}
+
 export function parseAmedasFile(text: string): Amedas[] {
     const info = text.split("\n");
     const list: Amedas[] = [];
