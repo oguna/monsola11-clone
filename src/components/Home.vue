@@ -465,7 +465,7 @@ export default defineComponent({
             };
           }
           const datasets = [];
-          for (let i = 0; i < 12; i++) {
+          for (let i = 0; i <= 12; i++) {
             datasets.push({
               label: azimuthLabels[i],
               backgroundColor: markers[i].backgroundColor,
