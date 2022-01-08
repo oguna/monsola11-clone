@@ -4,7 +4,9 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { Chart } from "chart.js";
+import {Chart, LineElement, LineController, Legend, LinearScale, CategoryScale, PointElement, Title, Tooltip} from 'chart.js';
+
+Chart.register(LineElement, LineController, Legend, LinearScale, CategoryScale, PointElement, Title, Tooltip)
 
 export default defineComponent({
   name: "Chart",
@@ -15,7 +17,7 @@ export default defineComponent({
   data() {
     return {
       ctx: null as CanvasRenderingContext2D|null,
-      chart: null as Chart|null,
+      //chart: null as Chart|null,
     }
   },
   mounted: function() {

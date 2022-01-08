@@ -610,41 +610,32 @@ export default defineComponent({
         throw "unexpected reach";
       }
       return {
-        animation: false
-        ,
-        legend: {
-          position: "bottom",
-        },
-        title: {
-          display: true,
-          text: title + " @" + this.info!.name,
-        },
-        hover: {
-          mode: "nearest",
-          intersect: true,
-        },
+        animation: false,
         scales: {
-          xAxes: [
-            {
-              scaleLabel: {
-                display: true,
-                labelString: xlabel,
-              },
+          x: {
+            title: {
+              display: true,
+              text: xlabel,
             },
-          ],
-          yAxes: [
-            {
-              scaleLabel: {
-                display: true,
-                labelString: ylabel,
-              },
-              ticks: {
-                min: 0.0,
-                max: max,
-              },
+          },
+          y: {
+            title: {
+              display: true,
+              text: ylabel,
             },
-          ],
+              min: 0.0,
+              max: max,
+          },
         },
+        plugins: {
+          legend: {
+            position: 'bottom'
+          },
+          title: {
+            display: true,
+            text: title + " @" + this.info!.name,
+          },
+        }
       };
     },
   },
