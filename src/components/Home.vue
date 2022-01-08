@@ -180,13 +180,13 @@
           <h4>パネル</h4>
         </div>
         <div class="card-body">
-          <panel-preview :altitude="-this.valueTilt/180*Math.PI" :azimuth="this.valueAzimuth/180*Math.PI"></panel-preview>
-          <label>傾斜角</label> 0°<input type="range" list="tickmarks" step="10" min="0" max="90" v-model.number="this.valueTilt">90°
+          <panel-preview :altitude="-valueTilt/180*Math.PI" :azimuth="valueAzimuth/180*Math.PI"></panel-preview>
+          <label>傾斜角</label> 0°<input type="range" list="tickmarks" step="10" min="0" max="90" v-model.number="valueTilt">90°
           <datalist id="tickmarks">
           <option v-for="e in Array.from({length: 10}, (v, k) => k*10)" :key="e" :value="e" label="0%"></option>
         </datalist>
           <br>
-          <label>方位角</label> 南<input type="range" list="tickmarksA" step="15" min="0" max="180"  v-model.number="this.valueAzimuth">北
+          <label>方位角</label> 南<input type="range" list="tickmarksA" step="15" min="0" max="180"  v-model.number="valueAzimuth">北
           <datalist id="tickmarksA">
           <option v-for="e in Array.from({length: 12}, (v,k)=>k*15+15)" :key="e" :value="e"></option>
         </datalist>
