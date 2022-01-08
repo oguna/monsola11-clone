@@ -45,7 +45,7 @@ export function parseDataBinFile(buffer: ArrayBuffer): DataFile {
     for (let i = 0; i < int16View.length; i++) {
         let v = int16View[i]
         const lineIndex = Math.floor(i/17)
-        if (lineIndex == 121 || lineIndex == 126) {
+        if (lineIndex == 120 || lineIndex == 125) {
             v = v/10
         } else {
             v = v/100
