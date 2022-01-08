@@ -254,19 +254,20 @@ export default defineComponent({
   },
   computed: {
     selectedArea: {
-      get: function() {
-        return Math.floor(this.$store.state.amedas / 1000)
+      get: function(): number {
+        return this.$store.state.area;
       },
       set: function(v: number) {
-        let amedas = this.amedasList?.filter(e=>e.id>v*1000)[0].id
+        let amedas = this.amedasList?.filter(e=>e.area==v)[0].id
         if (amedas === undefined) {
           amedas = 11001
         }
         this.$store.commit('setAmedas', amedas)
+        this.$store.commit('setArea', v)
       }
     },
     selectedAmedas: {
-      get: function() {
+      get: function(): number {
         return this.$store.state.amedas
       },
       set: function(v: number) {
