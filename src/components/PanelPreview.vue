@@ -3,7 +3,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-import * as THREE from "three/build/three.module.js";
+import * as THREE from "three";
 import { SVGRenderer } from "three/examples/jsm/renderers/SVGRenderer.js";
 import { ShadowMesh } from 'three/examples/jsm/objects/ShadowMesh.js';
 
