@@ -93,8 +93,9 @@
 <script lang="ts">
 import { parseDataBinFile } from "../utils";
 import { DataFile } from "../types";
+import { defineComponent } from "vue";
 
-export default {
+export default defineComponent({
   name: "TableView",
   props: {
     amedas: String,
@@ -118,7 +119,7 @@ export default {
       return `地点 ${this.info.name} (緯度=${this.info.lat_d}°${this.info.lat_m}′ 経度=${this.info.long_d}°${this.info.long_m}′ 標高=${this.info.alti}m)`;
     },
   },
-};
+})
 </script>
 
 <style scoped>
