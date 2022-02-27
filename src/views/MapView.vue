@@ -90,9 +90,9 @@ export default defineComponent({
   },
   methods: {
     createMap: function (res: any) {
-      const a = [];
+      const a: string[] = [];
       for (let i = 0; i < res.features.length; i++) {
-        const b = [];
+        const b: string[] = [];
         if (res.features[i].geometry.type === "MultiPolygon") {
           for (
             let j = 0;
@@ -105,7 +105,7 @@ export default defineComponent({
               k++
             ) {
               const coords = res.features[i].geometry.coordinates[j][k];
-              const c = [];
+              const c: string[] = [];
               for (let e of coords) {
                 c.push(e[0] + "," + e[1]);
               }
@@ -119,7 +119,7 @@ export default defineComponent({
             j++
           ) {
             const coords = res.features[i].geometry.coordinates[j];
-            const c = [];
+            const c: string[] = [];
             for (let e of coords) {
               c.push(e[0] + "," + e[1]);
             }
