@@ -181,6 +181,7 @@
         </div>
         <div class="card-body">
           <panel-preview :altitude="-valueTilt/180*Math.PI" :azimuth="valueAzimuth/180*Math.PI"></panel-preview>
+          <panel-preview-2 :altitude="-valueTilt/180*Math.PI" :azimuth="valueAzimuth/180*Math.PI"></panel-preview-2>
           <label>傾斜角</label> 0°<input type="range" list="tickmarks" step="10" min="0" max="90" v-model.number="valueTilt">90°
           <datalist id="tickmarks">
           <option v-for="e in Array.from({length: 10}, (v, k) => k*10)" :key="e" :value="e" label="0%"></option>
@@ -212,12 +213,14 @@ import {
 } from "../utils";
 import { DataFile, Amedas, NationWide, Area } from "../types";
 import PanelPreview from "./PanelPreview.vue";
+import PanelPreview2 from "./PanelPreview2.vue";
 
 export default defineComponent({
   name: "Home",
   components: {
     Chart,
-    PanelPreview
+    PanelPreview,
+    PanelPreview2
   },
   data() {
     return {

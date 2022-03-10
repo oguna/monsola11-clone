@@ -55,7 +55,7 @@ export default defineComponent({
   },
   mounted: function () {
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(60, 240/200, 0.1, 1000);
+    const camera = new THREE.OrthographicCamera(-1.2, 1.2, 1.2, -1.2, 1.2, 100);
 
     const renderer = new SVGRenderer();
     renderer.setSize(240, 200);
@@ -112,9 +112,9 @@ export default defineComponent({
     const shadow = new ShadowMesh(plane)
     scene.add(shadow)
 
-    camera.position.x = 1;
+    camera.position.x = 1.5;
     camera.position.y = 1;
-    camera.position.z = 2;
+    camera.position.z = 3;
     camera.lookAt(new THREE.Vector3(0, 0, 0));
 
     // 影を投影する平面
@@ -129,6 +129,8 @@ export default defineComponent({
     this.renderer = renderer
     this.plane = plane
     this.camera = camera
+    console.log(camera.matrixWorldInverse )
+    console.log(camera.projectionMatrix )
     this.scene = scene
     this.shadow = shadow
     this.groundPlane = groundPlane
