@@ -54,6 +54,7 @@
 import { defineComponent } from "vue";
 import { Amedas, Area, NationWide } from "../types";
 import { parseAmedasFile } from "../utils";
+import {feature} from 'topojson-client';
 
 export default defineComponent({
   props: {},
@@ -63,7 +64,7 @@ export default defineComponent({
       .then((res) => res.text())
       .then((text) => (this.amedasList = parseAmedasFile(text)))
       .then(() => {
-        fetch("/monsola11-clone/data/japan.geojson")
+        fetch("/monsola11-clone/data/japan.topojson")
           .then((res) => res.json())
           .then((res) => {
             this.createMap(res);
@@ -90,6 +91,7 @@ export default defineComponent({
   },
   methods: {
     createMap: function (res: any) {
+      res = feature(res, res.objects.japan)
       const a: string[] = [];
       for (let i = 0; i < res.features.length; i++) {
         const b: string[] = [];
