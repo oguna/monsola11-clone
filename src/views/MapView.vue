@@ -11,6 +11,15 @@
       <g>
         <path :d="e" v-for="(e, i) in d" :key="i" />
       </g>
+      <g fill="#e74c3c" fill-opacity="50%">
+        <rect
+          v-for="e in amedasCells"
+          :x="e[1]"
+          :y="e[0]"
+          width="0.0083333"
+          height="0.0125"
+           />
+      </g>
       <g>
         <circle
           v-for="e in amedasList"
@@ -64,12 +73,20 @@ export default defineComponent({
       .then((res) => res.text())
       .then((text) => (this.amedasList = parseAmedasFile(text)))
       .then(() => {
-        fetch("/monsola11-clone/data/japan.topojson")
+        fetch(base + "/data/japan.topojson")
           .then((res) => res.json())
           .then((res) => {
             this.createMap(res);
           });
       });
+    fetch(base + "/data/maptable")
+    .then(res => res.arrayBuffer())
+    .then(ab => {
+      const ta = new Uint32Array(ab)
+      const count = ta[0]
+      this.meshcodes = ta.subarray(1, count+1)
+      this.amedascodes = ta.subarray(count+2)
+    })
   },
   data() {
     return {
@@ -87,6 +104,9 @@ export default defineComponent({
       selectedAmedas: null as null | number,
       width: 800,
       height: 600,
+      meshcodes: null as null | Uint32Array,
+      amedascodes: null as null | Uint32Array,
+      amedasCells: [] as number[][],
     };
   },
   methods: {
@@ -156,6 +176,14 @@ export default defineComponent({
         this.startY = this.y;
       }
     },
+    calcPos(meshcode: number): number[] {
+      const first = (meshcode / 10000)|0
+      const second = ((meshcode % 10000)/100)|0
+      const third = meshcode % 100
+      const latitude = (((first/100)|0) * 80 + ((second/10)|0)*10 + (third/10)|0)*30/3600
+      const longitude = (((first%100)|0) * 80 + ((second%10)|0)*10 + (third%10)|0)*45/3600+100
+      return [latitude, longitude]
+    }
   },
   computed: {
     transform: function (): string {
@@ -182,6 +210,18 @@ export default defineComponent({
       return this.amedasList.find((e) => e.id == this.amedas)!;
     },
   },
+  watch: {
+    amedas: function(newValue) {
+      const r = [] as number[][]
+      for (let i = 0; i < this.meshcodes!.length; i++) {
+        if (this.amedascodes![i] === newValue) {
+          const mc = this.meshcodes![i]
+          r.push(this.calcPos(mc))
+        }
+      }
+      this.amedasCells = r
+    }
+  }
 });
 </script>
 
