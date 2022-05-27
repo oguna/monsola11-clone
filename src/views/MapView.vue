@@ -65,6 +65,51 @@ import { Amedas, Area, NationWide } from "../types";
 import { parseAmedasFile } from "../utils";
 import {feature} from 'topojson-client';
 
+function readMaptable(ab: ArrayBuffer): Uint32Array[] {
+  // parse
+  const dv = new DataView(ab)
+  let offset = 0
+  const firstMeshcodeListSize = dv.getUint32(offset, true)
+  offset += 4
+  const firstMeshcodeList = new Uint16Array(ab, offset, firstMeshcodeListSize)
+  offset += 2 * firstMeshcodeListSize
+  const firstMeshcodeCountsSize = dv.getUint32(offset, true)
+  offset += 4
+  const firstMeshcodeCounts = new Uint16Array(ab, offset, firstMeshcodeCountsSize)
+  offset += 2 * firstMeshcodeCountsSize
+  const shortMeshcodesSize = dv.getUint32(offset, true)
+  offset += 4
+  const shortMeshcodes = new Uint16Array(ab, offset, shortMeshcodesSize)
+  offset += 2 * shortMeshcodesSize
+  const amedascodesSize = dv.getUint32(offset, true) 
+  offset += 4
+  const upperAmedascodes = new Uint8Array(ab, offset, amedascodesSize)
+  offset += amedascodesSize
+  const lowerAmedascodes = new Uint16Array(ab.slice(offset), 0, amedascodesSize)
+  offset += 2 * amedascodesSize
+  if (offset != ab.byteLength) {
+    throw Error()
+  }
+  // rebuild
+  const meshcodes = new Uint32Array(shortMeshcodes.length)
+  let meshcodeIndex = 0
+  for (let i=0; i<firstMeshcodeList.length; i++) {
+    for (let j=0; j<firstMeshcodeCounts[i]; j++) {
+      meshcodes[meshcodeIndex] = firstMeshcodeList[i] * 10000
+      meshcodeIndex++
+    }
+  }
+  for (let i=0; i<shortMeshcodes.length; i++) {
+    meshcodes[i] += shortMeshcodes[i]
+  }
+  const amedascodes = new Uint32Array(lowerAmedascodes.length)
+  for (let i=0; i<amedascodes.length; i++) {
+    amedascodes[i] = (upperAmedascodes[i]<<16)+ lowerAmedascodes[i]
+  }
+  // return values
+  return [meshcodes, amedascodes]
+}
+
 export default defineComponent({
   props: {},
   mounted() {
@@ -82,10 +127,9 @@ export default defineComponent({
     fetch(base + "/data/maptable")
     .then(res => res.arrayBuffer())
     .then(ab => {
-      const ta = new Uint32Array(ab)
-      const count = ta[0]
-      this.meshcodes = ta.subarray(1, count+1)
-      this.amedascodes = ta.subarray(count+2)
+      const [meshcodes, amedascodes] = readMaptable(ab)
+      this.meshcodes = meshcodes
+      this.amedascodes = amedascodes
     })
   },
   data() {
