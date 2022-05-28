@@ -1,16 +1,10 @@
-import { createStore } from 'vuex'
+import { defineStore } from 'pinia'
 
-export const store = createStore({
-  state: {
-    area: 11,
-    amedas: 11001,
+export const useStore = defineStore('main', {
+  state: () => {
+    return {
+      area: 11,
+      amedas: 11001,
+    }
   },
-  mutations: {
-      setArea(state: any, area: number) {
-          state.area = area
-      },
-      setAmedas(state: any, amedas: number) {
-          state.amedas = amedas
-      },
-  }
 })

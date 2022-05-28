@@ -212,6 +212,8 @@ import {
 } from "../utils";
 import { DataFile, Amedas, NationWide, Area } from "../types";
 import PanelPreview2 from "./PanelPreview2.vue";
+import { useStore } from '../store'
+import { mapWritableState } from 'pinia'
 
 export default defineComponent({
   name: "Home",
@@ -253,25 +255,26 @@ export default defineComponent({
       .then((text) => (this.info = parseDataBinFile(text)));
   },
   computed: {
+    ...mapWritableState(useStore, ['area', 'amedas']),
     selectedArea: {
       get: function(): number {
-        return this.$store.state.area;
+        return this.area
       },
       set: function(v: number) {
         let amedas = this.amedasList?.filter(e=>e.area==v)[0].id
         if (amedas === undefined) {
           amedas = 11001
         }
-        this.$store.commit('setAmedas', amedas)
-        this.$store.commit('setArea', v)
+        this.area = v
+        this.amedas = amedas
       }
     },
     selectedAmedas: {
       get: function(): number {
-        return this.$store.state.amedas
+        return this.amedas 
       },
       set: function(v: number) {
-        this.$store.commit('setAmedas', v)
+        this.amedas = v
       }
     },
     filteredPoints: function (): Amedas[] {

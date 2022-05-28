@@ -64,6 +64,8 @@ import { defineComponent } from "vue";
 import { Amedas, Area, NationWide } from "../types";
 import { parseAmedasFile } from "../utils";
 import {feature} from 'topojson-client';
+import { useStore } from '../store'
+import { mapWritableState } from 'pinia'
 
 function readMaptable(ab: ArrayBuffer): Uint32Array[] {
   // parse
@@ -230,19 +232,12 @@ export default defineComponent({
     }
   },
   computed: {
+    ...mapWritableState(useStore, ['amedas', 'area']),
     transform: function (): string {
       const t1 = `translate(${this.width / 2},${this.height / 2})`;
       const t2 = `scale(${this.scale}, -${this.scale})`;
       const t3 = `translate(-${this.x}, -${this.y})`;
       return t1 + " " + t2 + " " + t3;
-    },
-    amedas: {
-      get(): number {
-        return this.$store.state.amedas;
-      },
-      set(value: number) {
-        this.$store.commit("setAmedas", value);
-      },
     },
     getSelectedAmedas(): Amedas | null {
       if (this.amedasList == null) {
@@ -256,6 +251,7 @@ export default defineComponent({
   },
   watch: {
     amedas: function(newValue) {
+      this.area = (newValue / 1000)|0
       const r = [] as number[][]
       for (let i = 0; i < this.meshcodes!.length; i++) {
         if (this.amedascodes![i] === newValue) {
