@@ -11,12 +11,12 @@
     "chart.js": "^3.8.0",
     "pinia": "^2.0.14",
     "topojson-client": "^3.1.0",
-    "vue": "^3.2.36",
-    "vue-router": "^4.0.15"
+    "vue": "^3.2.37",
+    "vue-router": "^4.1.2"
   },
   "devDependencies": {
     "@types/topojson-client": "^3.1.1",
-    "@vue/compiler-sfc": "^3.2.36",
-    "vite": "^2.9.9"
+    "@vue/compiler-sfc": "^3.2.37",
+    "vite": "^2.9.14"
   }
 }
