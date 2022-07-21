@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, markRaw } from "vue";
 import {Chart, LineElement, LineController, Legend, LinearScale, CategoryScale, PointElement, Title, Tooltip} from 'chart.js';
 
 Chart.register(LineElement, LineController, Legend, LinearScale, CategoryScale, PointElement, Title, Tooltip)
@@ -17,16 +17,16 @@ export default defineComponent({
   data() {
     return {
       ctx: null as CanvasRenderingContext2D|null,
-      //chart: null as Chart|null,
+      chart: null as Chart|null,
     }
   },
   mounted: function() {
     this.ctx = (document.getElementById('myChart') as HTMLCanvasElement).getContext('2d')
-    this.chart = new Chart(this.ctx, {
+    this.chart = markRaw(new Chart(this.ctx, {
       type: 'line',
       data: this.data,
       options: this.options,
-    })
+    }))
   },
   methods: {
   },
